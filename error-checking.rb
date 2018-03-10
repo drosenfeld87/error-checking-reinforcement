@@ -6,8 +6,9 @@ def check_syntax(str)
   }
   open = []
   opening_chars = openables.keys
+  # opening char is [ "(", "[", "{"]
   closing_chars = openables.values
-
+  #closing char is [ ")", "]", "}"]
   str.each_char do |char|
 
     if opening_chars.include?(char) # opening bracket
@@ -25,7 +26,11 @@ def check_syntax(str)
       else
 
         if open.any? # it's the wrong kind of closing bracket
-          puts "* You have a syntax error: there is an unexpected #{char}"
+          if open.length > 1
+            puts "*You have a syntax error: there is an unexpected #{char} where there should be a #{required_char}"
+          else
+            puts "* You have a syntax error: there is an unexpected #{char}"
+          end
         else # there's nothing to close
           puts "* You have a syntax error: there is an unexpected #{char} where there is nothing to close."
         end
@@ -50,6 +55,8 @@ puts "*****"
 puts check_syntax("(this)] is some text")
 puts "*****"
 puts check_syntax("[(this] is some text")
+# * You have a syntax error: there is an unexpected ] where there should be a )
+# false
 puts "*****"
 puts check_syntax("[this][ is some text")
 puts "*****"
